@@ -7,36 +7,30 @@ public class Cliente {
     private String nombre;
     private String id;
     private String direccion;
-    private ArrayList<String> proyectosVinculados; 
+    private ArrayList<String> proyectosVinculados;
 
     public Cliente(String nombre, String id, String direccion) {
-        super();
         this.nombre = nombre;
         this.id = id;
         this.direccion = direccion;
-        this.proyectosVinculados = new ArrayList<>(); 
+        this.proyectosVinculados = new ArrayList<>();
     }
 
-    
-    public String agregarProyecto(String nombreProyecto) {
+    public boolean agregarProyecto(String nombreProyecto) {
         if (proyectosVinculados.size() < 5 && !proyectosVinculados.contains(nombreProyecto)) {
             proyectosVinculados.add(nombreProyecto);
-            return "Proyecto '" + nombreProyecto + "' agregado para cliente: " + nombre;
-        } else if (proyectosVinculados.size() >= 5) {
-            return "No se pueden agregar más proyectos. Límite de 5 proyectos alcanzado.";
+            return true;
         }
-        return "El proyecto ya está vinculado a este cliente.";
+        return false;
     }
 
     public int getCantidadProyectos() {
         return proyectosVinculados.size();
     }
 
-
     public String getDatosCliente() {
         return String.format("Cliente: %s - Contacto: %s - Dirección: %s", nombre, id, direccion);
     }
-
 
     public String getNombre() {
         return nombre;
