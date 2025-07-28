@@ -10,13 +10,11 @@ public class ConexionDB {
         String contrasena = "Kataverde321";  
 
         try {
-            // Establece la conexión
-            Connection conn = DriverManager.getConnection(url, usuario, contrasena);
+             Connection conn = DriverManager.getConnection(url, usuario, contrasena);
             System.out.println("Conexión exitosa a la base de datos");
 
-            // Aquí puedes ejecutar tus consultas SQL
-
-            conn.close(); // Cerrar la conexión
+ 
+            conn.close();  
         } catch (SQLException e) {
             System.out.println("Error al conectar a la base de datos: " + e.getMessage());
         }

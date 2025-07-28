@@ -4,17 +4,27 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class GestorEmpresarial {
     private HashMap<String, Cliente> clientes;
     private HashMap<String, ProyectoSoftware> proyectos;
     private ArrayList<ColaboradorTech> colaboradores;
+    private static GestorEmpresarial inst = null;
 
     public GestorEmpresarial() {
         clientes = new HashMap<>();
         proyectos = new HashMap<>();
         colaboradores = new ArrayList<>();
+        
     }
 
+    private static GestorEmpresarial getInstance() {
+        if (inst == null) {
+        	inst = new GestorEmpresarial();
+        }
+        return inst;
+    }
+    
     public boolean crearContrato(String idCliente, String nombreProyecto, LocalDate fechaInicio, LocalDate fechaEntrega) {
         Cliente cliente = clientes.get(idCliente);
         ProyectoSoftware proyecto = proyectos.get(nombreProyecto);

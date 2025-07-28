@@ -69,8 +69,7 @@ public class ClienteDAO {
         }
     }
 
-    // Obtener todos los clientes (para pruebas)
-    public ArrayList<Cliente> obtenerClientes() {
+     public ArrayList<Cliente> obtenerClientes() {
         ArrayList<Cliente> clientes = new ArrayList<>();
         String sql = "SELECT * FROM Cliente";
         try (PreparedStatement stmt = conn.prepareStatement(sql);
