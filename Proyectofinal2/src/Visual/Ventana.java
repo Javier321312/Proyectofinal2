@@ -2,6 +2,7 @@ package Visual;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 
 public class Ventana extends JFrame {
@@ -67,9 +68,8 @@ public class Ventana extends JFrame {
             }
         });
         menuClientes.add(new JMenuItem("Agregar Cliente"));
-        menuClientes.add(new JMenuItem("Ver Contratos"));
 
-        JMenu menuProyectos = new JMenu("Proyectos");
+        JMenu menuProyectos = new JMenu("Contratos");
         menuProyectos.setOpaque(true);
         menuProyectos.setBackground(Color.WHITE);
         menuProyectos.setForeground(Color.BLACK);
@@ -155,7 +155,8 @@ public class Ventana extends JFrame {
             {"00112233445", "José Gómez", "Av. Central", "M", 45, 3000.0, "Sistema ERP", "Jefe de Proyecto"}
         };
 
-        JTable tabla = new JTable(datos, columnas);
+        DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
+        JTable tabla = new JTable(modelo);
         tabla.setFillsViewportHeight(true);
 
         // Mejorar aspecto visual
@@ -166,13 +167,122 @@ public class Ventana extends JFrame {
 
         JScrollPane scroll = new JScrollPane(tabla);
         panel.add(scroll, BorderLayout.CENTER);
+        
+        JButton btnEliminar = new JButton("Eliminar trabajador");
+        btnEliminar.setBackground(new Color(220, 53, 69)); // rojo claro
+        btnEliminar.setForeground(Color.WHITE);
+        btnEliminar.setFocusPainted(false);
+        btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnEliminar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+
+        btnEliminar.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                btnEliminar.setBackground(new Color(180, 35, 42)); // más oscuro
+            }
+
+            public void mouseExited(MouseEvent e) {
+                btnEliminar.setBackground(new Color(220, 53, 69)); // original
+            }
+        });
+
+
+        btnEliminar.addActionListener(e -> {
+            int filaSeleccionada = tabla.getSelectedRow();
+            if (filaSeleccionada != -1) {
+                int confirmar = JOptionPane.showConfirmDialog(
+                    panel,
+                    "¿Seguro que deseas eliminar este trabajador?",
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirmar == JOptionPane.YES_OPTION) {
+                    modelo.removeRow(filaSeleccionada);
+                    JOptionPane.showMessageDialog(panel, "Trabajador eliminado.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(panel, "Selecciona un trabajador primero.");
+            }
+        });
+
+        // Añadir botón en la parte inferior
+        JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBoton.add(btnEliminar);
+        panel.add(panelBoton, BorderLayout.SOUTH);
+
         return panel;
     }
 
     private JPanel crearPanelClientes() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Gestion de clientes...", SwingConstants.CENTER);
-        panel.add(label, BorderLayout.CENTER);
+        
+        String[] columnas = {
+            "ID", "Nombre", "Dirección", "Cantidad de Proyectos Relacionados",
+        };
+
+        // Datos de ejemplo (wey aqui deben que conectar los trabajadores que estan en la base de datos)
+        Object[][] datos = {
+            {"00123419397", "Fefita La Grande", "Calle 10", 3},
+            {"00120481289", "Pepito", "Av. Central", 2}
+        };
+
+        DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
+        JTable tabla = new JTable(modelo);
+        tabla.setFillsViewportHeight(true);
+
+        // Mejorar aspecto visual
+        tabla.getTableHeader().setReorderingAllowed(false);
+        tabla.setRowHeight(24);
+        tabla.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tabla.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        JScrollPane scroll = new JScrollPane(tabla);
+        panel.add(scroll, BorderLayout.CENTER);
+        
+        JButton btnEliminar = new JButton("Eliminar Cliente");
+        btnEliminar.setBackground(new Color(220, 53, 69)); // rojo claro
+        btnEliminar.setForeground(Color.WHITE);
+        btnEliminar.setFocusPainted(false);
+        btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnEliminar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+
+        btnEliminar.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                btnEliminar.setBackground(new Color(180, 35, 42)); // más oscuro
+            }
+
+            public void mouseExited(MouseEvent e) {
+                btnEliminar.setBackground(new Color(220, 53, 69)); // original
+            }
+        });
+
+
+        btnEliminar.addActionListener(e -> {
+            int filaSeleccionada = tabla.getSelectedRow();
+            if (filaSeleccionada != -1) {
+                int confirmar = JOptionPane.showConfirmDialog(
+                    panel,
+                    "¿Seguro que deseas eliminar este Cliente?",
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirmar == JOptionPane.YES_OPTION) {
+                    modelo.removeRow(filaSeleccionada);
+                    JOptionPane.showMessageDialog(panel, "Cliente eliminado.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(panel, "Selecciona un Cliente primero.");
+            }
+        });
+
+        // Añadir botón en la parte inferior
+        JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBoton.add(btnEliminar);
+        panel.add(panelBoton, BorderLayout.SOUTH);
+
         return panel;
     }
 
