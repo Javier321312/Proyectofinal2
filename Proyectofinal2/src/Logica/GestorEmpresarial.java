@@ -9,6 +9,8 @@ public class GestorEmpresarial {
     private HashMap<String, Cliente> clientes;
     private HashMap<String, ProyectoSoftware> proyectos;
     private ArrayList<ColaboradorTech> colaboradores;
+    private ArrayList<Contrato> contratos;
+
     private static GestorEmpresarial inst = null;
 
     public GestorEmpresarial() {
@@ -60,4 +62,12 @@ public class GestorEmpresarial {
     public ArrayList<ColaboradorTech> getColaboradores() {
         return colaboradores;
     }
+
+	public ArrayList<Contrato> getContratos() {
+		return contratos;
+	}
+
+	public void setContratos(ArrayList<Contrato> contratos) {
+		this.contratos = contratos;
+	}
 }
