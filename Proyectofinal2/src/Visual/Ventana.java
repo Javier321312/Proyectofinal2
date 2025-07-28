@@ -182,6 +182,12 @@ public class Ventana extends JFrame {
         panel.add(label, BorderLayout.CENTER);
         return panel;
     } 
-
+    
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            Ventana ventana = new Ventana();
+            ventana.setVisible(true);
+        });
+    }
 }
 
