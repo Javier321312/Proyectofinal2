@@ -1,10 +1,23 @@
 package Visual;
 
 import javax.swing.*;
+
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
+
+import java.awt.BorderLayout;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import Conector.ConexionDB;
+import Conector.TrabajadorDAO;
+import java.sql.DriverManager;
 
 public class Ventana extends JFrame {
     private JTabbedPane tabbedPane;
@@ -273,28 +286,35 @@ public class Ventana extends JFrame {
 
     private JPanel crearPanelClientes() {
         JPanel panel = new JPanel(new BorderLayout());
+        Connection conn = ConexionDB.obtenerConexion();
         
-        String[] columnas = {
-            "ID", "Nombre", "Dirección", "Cantidad de Proyectos Relacionados",
-        };
+        String[] columnas = {"ID", "Nombre", "Dirección", "Sexo", "Edad", "Salario", "Proyecto"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
-        Object[][] datos = {
-            {"00123419397", "Fefita La Grande", "Calle 10", 3},
-            {"00120481289", "Pepito", "Av. Central", 2}
-        };
-
-        DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
         JTable tabla = new JTable(modelo);
-        tabla.setFillsViewportHeight(true);
-
-        // Mejorar aspecto visual
-        tabla.getTableHeader().setReorderingAllowed(false);
-        tabla.setRowHeight(24);
-        tabla.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        tabla.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
-
         JScrollPane scroll = new JScrollPane(tabla);
         panel.add(scroll, BorderLayout.CENTER);
+
+        try {
+            TrabajadorDAO dao = new TrabajadorDAO(conn); // Usa tu conexión real aquí
+            ResultSet rs = dao.obtenerTodosTrabajadores();
+
+            while (rs.next()) {
+                Object[] fila = {
+                    rs.getString("id_trabajador"),
+                    rs.getString("nombre"),
+                    rs.getString("direccion"),
+                    rs.getString("sexo"),
+                    rs.getInt("edad"),
+                    rs.getDouble("salario"),
+                    rs.getString("nombre_proyecto")
+                };
+                modelo.addRow(fila);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(panel, "Error al cargar trabajadores: " + e.getMessage());
+        }
+
         
         JButton btnEliminar = new JButton("Eliminar Cliente");
         btnEliminar.setBackground(new Color(220, 53, 69)); 
