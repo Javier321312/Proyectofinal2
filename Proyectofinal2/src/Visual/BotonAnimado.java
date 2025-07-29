@@ -17,18 +17,18 @@ public class BotonAnimado extends JButton {
         setFont(new Font("Arial", Font.BOLD, 14));
         setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Escuchador del mouse para cambiar color y tamaño
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 setBackground(colorHover);
-                setFont(getFont().deriveFont(16f)); // Agranda la fuente
+                setFont(getFont().deriveFont(16f));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 setBackground(colorNormal);
-                setFont(getFont().deriveFont(14f)); // Tamaño normal
+                setFont(getFont().deriveFont(14f));
             }
         });
     }

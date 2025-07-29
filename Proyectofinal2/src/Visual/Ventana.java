@@ -47,6 +47,10 @@ public class Ventana extends JFrame {
         menuTrabajadores.add(itemAgregarTrabajador);
 
         JMenu menuClientes = new JMenu("Gestion de Clientes");
+        JMenuItem itemAgregarCliente = new JMenuItem("Agregar Cliente");
+        itemAgregarCliente.addActionListener(e -> {
+            new FormularioAgregarCliente().setVisible(true);
+        });
         menuClientes.setOpaque(true);
         menuClientes.setBackground(Color.WHITE);
         menuClientes.setForeground(Color.BLACK);
@@ -62,7 +66,9 @@ public class Ventana extends JFrame {
             	menuClientes.setBackground(Color.WHITE);
             }
         });
-        menuClientes.add(new JMenuItem("Agregar Cliente"));
+        
+        menuClientes.add(itemAgregarCliente);
+        
         JMenu menuProyectos = new JMenu("Contratos");
         menuProyectos.setOpaque(true);
         menuProyectos.setBackground(Color.WHITE);
@@ -104,9 +110,9 @@ public class Ventana extends JFrame {
                     hoveredIndex = index;
                     for (int i = 0; i < tabbedPane.getTabCount(); i++) {
                         if (i == hoveredIndex) {
-                            tabbedPane.setBackgroundAt(i, new Color(200, 220, 255)); // Hover color
+                            tabbedPane.setBackgroundAt(i, new Color(200, 220, 255));
                         } else {
-                            tabbedPane.setBackgroundAt(i, null); // Reset
+                            tabbedPane.setBackgroundAt(i, null); 
                         }
                     }
                 }
@@ -163,7 +169,7 @@ public class Ventana extends JFrame {
         panel.add(scroll, BorderLayout.CENTER);
         
         JButton btnEliminar = new JButton("Eliminar trabajador");
-        btnEliminar.setBackground(new Color(220, 53, 69)); // rojo claro
+        btnEliminar.setBackground(new Color(220, 53, 69));
         btnEliminar.setForeground(Color.WHITE);
         btnEliminar.setFocusPainted(false);
         btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -172,11 +178,11 @@ public class Ventana extends JFrame {
 
         btnEliminar.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                btnEliminar.setBackground(new Color(180, 35, 42)); // más oscuro
+                btnEliminar.setBackground(new Color(180, 35, 42));
             }
 
             public void mouseExited(MouseEvent e) {
-                btnEliminar.setBackground(new Color(220, 53, 69)); // original
+                btnEliminar.setBackground(new Color(220, 53, 69)); 
             }
         });
 
@@ -200,7 +206,6 @@ public class Ventana extends JFrame {
             }
         });
 
-        // Añadir botón en la parte inferior
         JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelBoton.add(btnEliminar);
         panel.add(panelBoton, BorderLayout.SOUTH);
@@ -215,7 +220,6 @@ public class Ventana extends JFrame {
             "ID", "Nombre", "Dirección", "Cantidad de Proyectos Relacionados",
         };
 
-        // Datos de ejemplo (wey aqui deben que conectar los trabajadores que estan en la base de datos)
         Object[][] datos = {
             {"00123419397", "Fefita La Grande", "Calle 10", 3},
             {"00120481289", "Pepito", "Av. Central", 2}
@@ -235,7 +239,7 @@ public class Ventana extends JFrame {
         panel.add(scroll, BorderLayout.CENTER);
         
         JButton btnEliminar = new JButton("Eliminar Cliente");
-        btnEliminar.setBackground(new Color(220, 53, 69)); // rojo claro
+        btnEliminar.setBackground(new Color(220, 53, 69)); 
         btnEliminar.setForeground(Color.WHITE);
         btnEliminar.setFocusPainted(false);
         btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -244,11 +248,11 @@ public class Ventana extends JFrame {
 
         btnEliminar.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                btnEliminar.setBackground(new Color(180, 35, 42)); // más oscuro
+                btnEliminar.setBackground(new Color(180, 35, 42)); 
             }
 
             public void mouseExited(MouseEvent e) {
-                btnEliminar.setBackground(new Color(220, 53, 69)); // original
+                btnEliminar.setBackground(new Color(220, 53, 69));
             }
         });
 
@@ -272,7 +276,6 @@ public class Ventana extends JFrame {
             }
         });
 
-        // Añadir botón en la parte inferior
         JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelBoton.add(btnEliminar);
         panel.add(panelBoton, BorderLayout.SOUTH);

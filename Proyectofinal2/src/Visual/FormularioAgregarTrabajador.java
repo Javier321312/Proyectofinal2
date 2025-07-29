@@ -28,8 +28,6 @@ public class FormularioAgregarTrabajador extends JDialog {
 
         JButton botonGuardar = new BotonAnimado("Guardar");
 
-
-        // Agregar componentes
         add(new JLabel("ID:"));
         add(campoID);
 
