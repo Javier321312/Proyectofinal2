@@ -18,9 +18,7 @@ public class Ventana extends JFrame {
         setResizable(false);
 
 
-
         JMenuBar menuBar = new JMenuBar();
-
         JMenu menuTrabajadores = new JMenu("Gestion de Trabajadores");
         JMenuItem itemAgregarTrabajador = new JMenuItem("Agregar Trabajador");
         itemAgregarTrabajador.addActionListener(e -> {
@@ -95,10 +93,14 @@ public class Ventana extends JFrame {
         setJMenuBar(menuBar);
 
         tabbedPane = new JTabbedPane();
+        tabbedPane.setFont(EstiloVisual.FUENTE_TITULO);
+        tabbedPane.setForeground(EstiloVisual.TEXTO_OSCURO);
+        tabbedPane.setBackground(EstiloVisual.AZUL_CLARO);
         tabbedPane.add("Menu", crearMenu());
         tabbedPane.add("Trabajadores", crearPanelTrabajadores());
         tabbedPane.add("Clientes", crearPanelClientes());
         tabbedPane.add("Contratos", crearPanelContratos());
+
         
         tabbedPane.addMouseMotionListener(new MouseMotionAdapter() {
             int hoveredIndex = -1;
@@ -127,17 +129,18 @@ public class Ventana extends JFrame {
                 }
             }
         });
-
-
         add(tabbedPane);
     }
     
     private JPanel crearMenu() {
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Color.WHITE);
         ImageIcon logoMenu = new ImageIcon(getClass().getResource("/recursos/logoMenu.png"));
         Image imagen = logoMenu.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-        JLabel label = new JLabel(new ImageIcon(imagen), SwingConstants.CENTER);
-        panel.add(label, BorderLayout.CENTER);
+        ImageIcon iconoEscalado = new ImageIcon(imagen);
+
+        JLabel labelConFade = new ImagenConFade(iconoEscalado, 1000); // 1000ms (1s) de fade
+        panel.add(labelConFade, BorderLayout.CENTER);
         return panel;
     }
 
@@ -159,7 +162,6 @@ public class Ventana extends JFrame {
         JTable tabla = new JTable(modelo);
         tabla.setFillsViewportHeight(true);
 
-        // Mejorar aspecto visual
         tabla.getTableHeader().setReorderingAllowed(false);
         tabla.setRowHeight(24);
         tabla.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -285,7 +287,7 @@ public class Ventana extends JFrame {
 
     private JPanel crearPanelContratos() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Panel de contratos...", SwingConstants.CENTER);
+        JLabel label = new JLabel("Lista de Proyectos", SwingConstants.CENTER);
         panel.add(label, BorderLayout.CENTER);
         return panel;
     } 
@@ -296,5 +298,35 @@ public class Ventana extends JFrame {
             ventana.setVisible(true);
         });
     }
+
+    private class ImagenConFade extends JLabel {
+        private float alpha = 0f;
+        private Timer timer;
+
+        public ImagenConFade(ImageIcon icono, int duracionMs) {
+            setIcon(icono);
+            setHorizontalAlignment(SwingConstants.CENTER);
+
+            timer = new Timer(40, e -> {
+                alpha += 0.05f;
+                if (alpha >= 1f) {
+                    alpha = 1f;
+                    timer.stop();
+                }
+                repaint();
+            });
+            timer.setInitialDelay(300);
+            timer.start();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+            super.paintComponent(g2d);
+            g2d.dispose();
+        }
+    }
+
 }
 
