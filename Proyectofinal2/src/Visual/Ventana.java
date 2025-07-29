@@ -44,11 +44,6 @@ public class Ventana extends JFrame {
             	menuTrabajadores.setBackground(Color.WHITE);
             }
         });
-        JMenuItem itemListar = new JMenuItem("Listar Trabajadores");
-        itemListar.addActionListener(e -> {
-            tabbedPane.setSelectedIndex(1);
-        });
-        menuTrabajadores.add(itemListar);
         menuTrabajadores.add(itemAgregarTrabajador);
 
         JMenu menuClientes = new JMenu("Gestion de Clientes");
@@ -68,7 +63,6 @@ public class Ventana extends JFrame {
             }
         });
         menuClientes.add(new JMenuItem("Agregar Cliente"));
-
         JMenu menuProyectos = new JMenu("Contratos");
         menuProyectos.setOpaque(true);
         menuProyectos.setBackground(Color.WHITE);
