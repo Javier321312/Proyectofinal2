@@ -8,6 +8,8 @@ public class FormularioAgregarCliente extends JDialog {
 
     public FormularioAgregarCliente() {
         setTitle("Agregar Cliente");
+        ImageIcon icono = new ImageIcon(getClass().getResource("/recursos/logoLapiz.jpg"));
+        setIconImage(icono.getImage());
         setSize(400, 300);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

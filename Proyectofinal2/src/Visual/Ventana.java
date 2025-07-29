@@ -4,12 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import javax.swing.border.EmptyBorder;
 
 public class Ventana extends JFrame {
     private JTabbedPane tabbedPane;
 
     public Ventana() {
-        setTitle("Prueba Visual de Proyecto Final de la Muchachada");
+        setTitle("Proyect Software Management");
         ImageIcon icono = new ImageIcon(getClass().getResource("/recursos/icono.png"));
         setIconImage(icono.getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -20,16 +21,21 @@ public class Ventana extends JFrame {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menuTrabajadores = new JMenu("Gestion de Trabajadores");
+        menuTrabajadores.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        menuTrabajadores.setForeground(new Color(30, 30, 30)); 
+        menuTrabajadores.setOpaque(false);
+        menuTrabajadores.setForeground(Color.BLACK);
+        
         JMenuItem itemAgregarTrabajador = new JMenuItem("Agregar Trabajador");
+        itemAgregarTrabajador.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        itemAgregarTrabajador.setBackground(new Color(245, 245, 245));
+        itemAgregarTrabajador.setOpaque(false);
+        itemAgregarTrabajador.setBorder(new EmptyBorder(5, 10, 5, 10)); 
         itemAgregarTrabajador.addActionListener(e -> {
             FormularioAgregarTrabajador dialogo = new FormularioAgregarTrabajador(this);
             dialogo.setVisible(true);
             setResizable(false);
         });
-
-        menuTrabajadores.setOpaque(true);
-        menuTrabajadores.setBackground(Color.WHITE);
-        menuTrabajadores.setForeground(Color.BLACK);
 
         menuTrabajadores.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -45,13 +51,18 @@ public class Ventana extends JFrame {
         menuTrabajadores.add(itemAgregarTrabajador);
 
         JMenu menuClientes = new JMenu("Gestion de Clientes");
+        menuClientes.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        menuClientes.setForeground(new Color(30, 30, 30)); 
+        menuClientes.setOpaque(false);
+        menuClientes.setForeground(Color.BLACK);
         JMenuItem itemAgregarCliente = new JMenuItem("Agregar Cliente");
+        itemAgregarCliente.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        itemAgregarCliente.setBackground(new Color(245, 245, 245));
+        itemAgregarCliente.setOpaque(false); 
+        itemAgregarCliente.setBorder(new EmptyBorder(5, 10, 5, 10)); 
         itemAgregarCliente.addActionListener(e -> {
             new FormularioAgregarCliente().setVisible(true);
         });
-        menuClientes.setOpaque(true);
-        menuClientes.setBackground(Color.WHITE);
-        menuClientes.setForeground(Color.BLACK);
 
         menuClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -68,10 +79,15 @@ public class Ventana extends JFrame {
         menuClientes.add(itemAgregarCliente);
         
         JMenu menuProyectos = new JMenu("Contratos");
-        menuProyectos.setOpaque(true);
-        menuProyectos.setBackground(Color.WHITE);
+        menuProyectos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        menuProyectos.setForeground(new Color(30, 30, 30)); 
+        menuProyectos.setOpaque(false);
         menuProyectos.setForeground(Color.BLACK);
-
+        JMenuItem itemVerProyectos = new JMenuItem("Ver Proyectos");
+        itemVerProyectos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        itemVerProyectos.setBackground(new Color(245, 245, 245));
+        itemVerProyectos.setOpaque(false); 
+        itemVerProyectos.setBorder(new EmptyBorder(5, 10, 5, 10));
         menuProyectos.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -83,8 +99,25 @@ public class Ventana extends JFrame {
             	menuProyectos.setBackground(Color.WHITE);
             }
         });
-        menuProyectos.add(new JMenuItem("Ver Proyectos"));
-        menuProyectos.add(new JMenuItem("Asignar Proyecto"));
+        JMenuItem itemAsignarProyectos = new JMenuItem("Asignar Proyectos");
+        itemAsignarProyectos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        itemAsignarProyectos.setBackground(new Color(245, 245, 245));
+        itemAsignarProyectos.setOpaque(false); 
+        itemAsignarProyectos.setBorder(new EmptyBorder(5, 10, 5, 10));
+        menuProyectos.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+            	menuProyectos.setBackground(new Color(200, 220, 255));
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+            	menuProyectos.setBackground(Color.WHITE);
+            }
+        });
+        
+        menuProyectos.add(itemVerProyectos);
+        menuProyectos.add(itemAsignarProyectos);
 
         menuBar.add(menuTrabajadores);
         menuBar.add(menuClientes);
@@ -93,9 +126,32 @@ public class Ventana extends JFrame {
         setJMenuBar(menuBar);
 
         tabbedPane = new JTabbedPane();
-        tabbedPane.setFont(EstiloVisual.FUENTE_TITULO);
-        tabbedPane.setForeground(EstiloVisual.TEXTO_OSCURO);
-        tabbedPane.setBackground(EstiloVisual.AZUL_CLARO);
+        tabbedPane.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        tabbedPane.setForeground(Color.WHITE);
+        tabbedPane.setBackground(new Color(30, 30, 30));
+
+        UIManager.put("TabbedPane.selected", new Color(45, 45, 45));  // Color de fondo del tab activo
+        UIManager.put("TabbedPane.contentAreaColor", new Color(60, 60, 60));
+        tabbedPane.setUI(new javax.swing.plaf.metal.MetalTabbedPaneUI() {
+        	@Override
+        	protected void installDefaults() {
+        super.installDefaults();
+        tabAreaBackground = new Color(40, 40, 40);
+        selectedTabPadInsets = new Insets(5, 10, 5, 10);
+        tabInsets = new Insets(5, 10, 5, 10);
+        	}
+
+        	@Override
+        	protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+        		g.setColor(isSelected ? new Color(70, 130, 180) : new Color(90, 90, 90));
+        		g.fillRoundRect(x, y, w, h, 15, 15);
+        	}
+
+        	@Override
+        	protected void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects,
+                 int tabIndex, Rectangle iconRect, Rectangle textRect, boolean isSelected) {
+    }
+});
         tabbedPane.add("Menu", crearMenu());
         tabbedPane.add("Trabajadores", crearPanelTrabajadores());
         tabbedPane.add("Clientes", crearPanelClientes());
@@ -298,6 +354,7 @@ public class Ventana extends JFrame {
             ventana.setVisible(true);
         });
     }
+    
 
     private class ImagenConFade extends JLabel {
         private float alpha = 0f;
@@ -327,6 +384,5 @@ public class Ventana extends JFrame {
             g2d.dispose();
         }
     }
-
 }
 
