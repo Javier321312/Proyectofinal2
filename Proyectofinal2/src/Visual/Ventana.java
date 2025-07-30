@@ -16,13 +16,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import Conector.ConexionDB;
 import Conector.TrabajadorDAO;
 import Logica.Cliente;
+import Logica.ProyectoSoftware;
 
 import java.sql.DriverManager;
 import Conector.ClienteDAO;
+import Conector.ProyectoDAO;
 
 public class Ventana extends JFrame {
     private JTabbedPane tabbedPane;
@@ -379,8 +382,26 @@ public class Ventana extends JFrame {
 
     private JPanel crearPanelContratos() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Lista de Proyectos", SwingConstants.CENTER);
-        panel.add(label, BorderLayout.CENTER);
+        Connection conn = ConexionDB.obtenerConexion();
+
+        String[] columnas = {"Nombre del Proyecto"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+        JTable tabla = new JTable(modelo);
+        JScrollPane scroll = new JScrollPane(tabla);
+        panel.add(scroll, BorderLayout.CENTER);
+
+        try {
+            ProyectoDAO dao = new ProyectoDAO(conn);
+            List<ProyectoSoftware> proyectos = dao.obtenerTodosProyectos();
+
+            for (ProyectoSoftware p : proyectos) {
+                Object[] fila = {p.getNombre()};
+                modelo.addRow(fila);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(panel, "Error al cargar proyectos: " + e.getMessage());
+        }
+
         return panel;
     } 
     
