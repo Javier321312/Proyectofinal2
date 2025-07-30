@@ -317,14 +317,12 @@ public class Ventana extends JFrame {
             e.printStackTrace();
         }
 
-        
         JButton btnEliminar = new JButton("Eliminar Cliente");
         btnEliminar.setBackground(new Color(220, 53, 69)); 
         btnEliminar.setForeground(Color.WHITE);
         btnEliminar.setFocusPainted(false);
         btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnEliminar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
 
         btnEliminar.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
@@ -336,23 +334,31 @@ public class Ventana extends JFrame {
             }
         });
 
-
         btnEliminar.addActionListener(e -> {
             int filaSeleccionada = tabla.getSelectedRow();
             if (filaSeleccionada != -1) {
                 int confirmar = JOptionPane.showConfirmDialog(
                     panel,
-                    "¿Seguro que deseas eliminar este trabajador?",
+                    "¿Seguro que deseas eliminar este cliente?",
                     "Confirmar eliminación",
                     JOptionPane.YES_NO_OPTION
                 );
 
                 if (confirmar == JOptionPane.YES_OPTION) {
-                    modelo.removeRow(filaSeleccionada);
-                    JOptionPane.showMessageDialog(panel, "Trabajador eliminado.");
+                    String idCliente = (String) modelo.getValueAt(filaSeleccionada, 0);
+
+                    ClienteDAO dao = new ClienteDAO(conn);
+                    boolean exito = dao.eliminarCliente(idCliente);
+
+                    if (exito) {
+                        modelo.removeRow(filaSeleccionada);
+                        JOptionPane.showMessageDialog(panel, "Cliente eliminado correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(panel, "No se pudo eliminar el cliente.");
+                    }
                 }
             } else {
-                JOptionPane.showMessageDialog(panel, "Selecciona un trabajador primero.");
+                JOptionPane.showMessageDialog(panel, "Selecciona un cliente primero.");
             }
         });
 
