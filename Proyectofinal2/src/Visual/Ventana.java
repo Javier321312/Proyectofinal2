@@ -425,6 +425,7 @@ public class Ventana extends JFrame {
 
         JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelBoton.add(btnEliminar);
+        panel.add(panelBoton, BorderLayout.SOUTH);
 
         return panel;
     } 
