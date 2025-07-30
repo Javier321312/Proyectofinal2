@@ -15,9 +15,14 @@ import java.awt.BorderLayout;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import Conector.ConexionDB;
 import Conector.TrabajadorDAO;
+import Logica.Cliente;
+
 import java.sql.DriverManager;
+import Conector.ClienteDAO;
 
 public class Ventana extends JFrame {
     private JTabbedPane tabbedPane;
@@ -216,27 +221,40 @@ public class Ventana extends JFrame {
 
     private JPanel crearPanelTrabajadores() {
         JPanel panel = new JPanel(new BorderLayout());
- 
-        String[] columnas = {
-            "ID", "Nombre", "Dirección", "Sexo", "Edad", "Salario", "Proyecto", "Rol"
-        };
+        Connection conn = ConexionDB.obtenerConexion();
+        
+        String[] columnas = {"ID", "Nombre", "Dirección", "Sexo", "Edad", "Salario", "Proyecto"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
-        // Datos de ejemplo (wey aqui deben que conectar los trabajadores que estan en la base de datos)
-        Object[][] datos = {
-            {"00123456789", "Laura Pérez", "Calle 10", "F", 30, 2500.0, "App Mobile", "Programador"},
-            {"00112233445", "José Gómez", "Av. Central", "M", 45, 3000.0, "Sistema ERP", "Jefe de Proyecto"}
-        };
-
-        DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
         JTable tabla = new JTable(modelo);
-        tabla.setFillsViewportHeight(true);
+        JScrollPane scroll = new JScrollPane(tabla);
+        panel.add(scroll, BorderLayout.CENTER);
+
+        try {
+            TrabajadorDAO dao = new TrabajadorDAO(conn);
+            ResultSet rs = dao.obtenerTodosTrabajadores();
+
+            while (rs.next()) {
+                Object[] fila = {
+                    rs.getString("id_trabajador"),
+                    rs.getString("nombre"),
+                    rs.getString("direccion"),
+                    rs.getString("sexo"),
+                    rs.getInt("edad"),
+                    rs.getDouble("salario"),
+                    rs.getString("nombre_proyecto")
+                };
+                modelo.addRow(fila);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(panel, "Error al cargar trabajadores: " + e.getMessage());
+        }
 
         tabla.getTableHeader().setReorderingAllowed(false);
         tabla.setRowHeight(24);
         tabla.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         tabla.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
 
-        JScrollPane scroll = new JScrollPane(tabla);
         panel.add(scroll, BorderLayout.CENTER);
         
         JButton btnEliminar = new JButton("Eliminar trabajador");
@@ -287,32 +305,30 @@ public class Ventana extends JFrame {
     private JPanel crearPanelClientes() {
         JPanel panel = new JPanel(new BorderLayout());
         Connection conn = ConexionDB.obtenerConexion();
-        
-        String[] columnas = {"ID", "Nombre", "Dirección", "Sexo", "Edad", "Salario", "Proyecto"};
-        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
+        String[] columnas = {"ID", "Nombre", "Dirección"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         JTable tabla = new JTable(modelo);
         JScrollPane scroll = new JScrollPane(tabla);
+
         panel.add(scroll, BorderLayout.CENTER);
 
         try {
-            TrabajadorDAO dao = new TrabajadorDAO(conn); // Usa tu conexión real aquí
-            ResultSet rs = dao.obtenerTodosTrabajadores();
+            ClienteDAO dao = new ClienteDAO(conn);
+            ArrayList<Cliente> clientes = dao.obtenerClientes();
 
-            while (rs.next()) {
+            for (Cliente cliente : clientes) {
                 Object[] fila = {
-                    rs.getString("id_trabajador"),
-                    rs.getString("nombre"),
-                    rs.getString("direccion"),
-                    rs.getString("sexo"),
-                    rs.getInt("edad"),
-                    rs.getDouble("salario"),
-                    rs.getString("nombre_proyecto")
+                    cliente.getId(),
+                    cliente.getNombre(),
+                    cliente.getDireccion()
                 };
                 modelo.addRow(fila);
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(panel, "Error al cargar trabajadores: " + e.getMessage());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(panel, "Error al cargar clientes: " + e.getMessage());
+            e.printStackTrace();
         }
 
         
