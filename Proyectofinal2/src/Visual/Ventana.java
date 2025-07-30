@@ -109,6 +109,9 @@ public class Ventana extends JFrame {
         itemAsignarProyectos.setBackground(new Color(245, 245, 245));
         itemAsignarProyectos.setOpaque(false); 
         itemAsignarProyectos.setBorder(new EmptyBorder(5, 10, 5, 10));
+        itemAsignarProyectos.addActionListener(e -> {
+            new FormularioAgregarProyecto().setVisible(true);
+        });
         menuProyectos.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -341,7 +344,7 @@ public class Ventana extends JFrame {
                 int confirmar = JOptionPane.showConfirmDialog(
                     panel,
                     "¿Seguro que deseas eliminar este cliente?",
-                    "Confirmar eliminación",
+                    "Confirmar eliminacion",
                     JOptionPane.YES_NO_OPTION
                 );
 
