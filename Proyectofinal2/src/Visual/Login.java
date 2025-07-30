@@ -7,8 +7,10 @@ import java.awt.event.*;
 public class Login extends JFrame {
     private JPanel contentPane;
     private JPasswordField passwordField;
-
+    private JTextField userField; 
     private final String CONTRASENA_CORRECTA = "Vortex"; 
+    private final String USUARIO1 = "Javier";  
+    private final String USUARIO2 = "Narciso"; 
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -33,36 +35,45 @@ public class Login extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JLabel lblContrasena = new JLabel("Contraseña:");
-        lblContrasena.setBounds(30, 30, 100, 14);
+        JLabel lblUsuario = new JLabel("Usuario:");
+        lblUsuario.setBounds(30, 30, 100, 14);
+        contentPane.add(lblUsuario);
+
+        userField = new JTextField();
+        userField.setBounds(30, 50, 260, 25);
+        contentPane.add(userField);
+        userField.setColumns(10);
+
+         JLabel lblContrasena = new JLabel("Contraseña:");
+        lblContrasena.setBounds(30, 80, 100, 14);
         contentPane.add(lblContrasena);
 
         passwordField = new JPasswordField();
-        passwordField.setBounds(30, 50, 260, 25);
+        passwordField.setBounds(30, 100, 260, 25);
         contentPane.add(passwordField);
 
         JButton btnLogin = new JButton("Ingresar");
-        btnLogin.setBounds(110, 100, 100, 25);
+        btnLogin.setBounds(110, 140, 100, 25);
         contentPane.add(btnLogin);
 
-        
         Action ingresarAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String pass = new String(passwordField.getPassword());
-                if (pass.equals(CONTRASENA_CORRECTA)) {
+                String usuario = userField.getText();                   String pass = new String(passwordField.getPassword());   
+
+                if ((usuario.equals(USUARIO1) || usuario.equals(USUARIO2)) && pass.equals(CONTRASENA_CORRECTA)) {
                     Ventana ventana = new Ventana(); 
                     ventana.setVisible(true);
-                    dispose(); 
+                    dispose();  
                 } else {
-                    JOptionPane.showMessageDialog(Login.this, "Contraseña incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Login.this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         };
 
         btnLogin.addActionListener(ingresarAction);
         passwordField.addActionListener(ingresarAction); 
-        
-        getRootPane().setDefaultButton(btnLogin);
+        userField.addActionListener(ingresarAction); ¡
+        getRootPane().setDefaultButton(btnLogin);   
     }
 }
