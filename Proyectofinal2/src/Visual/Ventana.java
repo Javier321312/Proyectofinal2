@@ -216,30 +216,6 @@ public class Ventana extends JFrame {
         JScrollPane scroll = new JScrollPane(tabla);
         panel.add(scroll, BorderLayout.CENTER);
         
-        Runnable cargarTrabajadores = () -> {
-            modelo.setRowCount(0); // Limpia la tabla
-            try {
-                TrabajadorDAO dao = new TrabajadorDAO(conn);
-                ResultSet rs = dao.obtenerTodosTrabajadores();
-                while (rs.next()) {
-                    Object[] fila = {
-                        rs.getString("id_trabajador"),
-                        rs.getString("nombre"),
-                        rs.getString("direccion"),
-                        rs.getString("sexo"),
-                        rs.getInt("edad"),
-                        rs.getDouble("salario"),
-                        rs.getString("nombre_proyecto")
-                    };
-                    modelo.addRow(fila);
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(panel, "Error al cargar trabajadores: " + e.getMessage());
-            }
-        };
-
-        cargarTrabajadores.run(); // Carga inicial
-
         try {
             TrabajadorDAO dao = new TrabajadorDAO(conn);
             ResultSet rs = dao.obtenerTodosTrabajadores();
