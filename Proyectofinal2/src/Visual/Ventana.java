@@ -209,13 +209,14 @@ public class Ventana extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
         Connection conn = ConexionDB.obtenerConexion();
         
-        String[] columnas = {"ID", "Nombre", "Direcci髇", "Sexo", "Edad", "Salario", "Proyecto"};
+        String[] columnas = {"ID", "Nombre", "Direcci贸n", "Sexo", "Edad", "Salario", "Proyecto"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
         JTable tabla = new JTable(modelo);
         JScrollPane scroll = new JScrollPane(tabla);
         panel.add(scroll, BorderLayout.CENTER);
         
+
         try {
             TrabajadorDAO dao = new TrabajadorDAO(conn);
             ResultSet rs = dao.obtenerTodosTrabajadores();
@@ -267,8 +268,8 @@ public class Ventana extends JFrame {
             if (filaSeleccionada != -1) {
                 int confirmar = JOptionPane.showConfirmDialog(
                     panel,
-                    "縎eguro que deseas eliminar este trabajador?",
-                    "Confirmar eliminaci髇",
+                    "驴Seguro que deseas eliminar este trabajador?",
+                    "Confirmar eliminaci贸n",
                     JOptionPane.YES_NO_OPTION
                 );
 
@@ -292,7 +293,7 @@ public class Ventana extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
         Connection conn = ConexionDB.obtenerConexion();
 
-        String[] columnas = {"ID", "Nombre", "Direcci髇"};
+        String[] columnas = {"ID", "Nombre", "Direcci贸n"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         JTable tabla = new JTable(modelo);
         JScrollPane scroll = new JScrollPane(tabla);
@@ -317,14 +318,12 @@ public class Ventana extends JFrame {
             e.printStackTrace();
         }
 
-        
         JButton btnEliminar = new JButton("Eliminar Cliente");
         btnEliminar.setBackground(new Color(220, 53, 69)); 
         btnEliminar.setForeground(Color.WHITE);
         btnEliminar.setFocusPainted(false);
         btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnEliminar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
 
         btnEliminar.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
@@ -336,23 +335,31 @@ public class Ventana extends JFrame {
             }
         });
 
-
         btnEliminar.addActionListener(e -> {
             int filaSeleccionada = tabla.getSelectedRow();
             if (filaSeleccionada != -1) {
                 int confirmar = JOptionPane.showConfirmDialog(
                     panel,
-                    "縎eguro que deseas eliminar este trabajador?",
-                    "Confirmar eliminaci髇",
+                    "驴Seguro que deseas eliminar este cliente?",
+                    "Confirmar eliminaci贸n",
                     JOptionPane.YES_NO_OPTION
                 );
 
                 if (confirmar == JOptionPane.YES_OPTION) {
-                    modelo.removeRow(filaSeleccionada);
-                    JOptionPane.showMessageDialog(panel, "Trabajador eliminado.");
+                    String idCliente = (String) modelo.getValueAt(filaSeleccionada, 0);
+
+                    ClienteDAO dao = new ClienteDAO(conn);
+                    boolean exito = dao.eliminarCliente(idCliente);
+
+                    if (exito) {
+                        modelo.removeRow(filaSeleccionada);
+                        JOptionPane.showMessageDialog(panel, "Cliente eliminado correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(panel, "No se pudo eliminar el cliente.");
+                    }
                 }
             } else {
-                JOptionPane.showMessageDialog(panel, "Selecciona un trabajador primero.");
+                JOptionPane.showMessageDialog(panel, "Selecciona un cliente primero.");
             }
         });
 
@@ -409,8 +416,8 @@ public class Ventana extends JFrame {
             if (filaSeleccionada != -1) {
                 int confirmar = JOptionPane.showConfirmDialog(
                     panel,
-                    "縎eguro que deseas eliminar este Proyecto?",
-                    "Confirmar eliminaci髇",
+                    "驴Seguro que deseas eliminar este Proyecto?",
+                    "Confirmar eliminaci贸n",
                     JOptionPane.YES_NO_OPTION
                 );
 
