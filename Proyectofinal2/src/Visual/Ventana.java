@@ -215,6 +215,7 @@ public class Ventana extends JFrame {
         JTable tabla = new JTable(modelo);
         JScrollPane scroll = new JScrollPane(tabla);
         panel.add(scroll, BorderLayout.CENTER);
+        
 
         try {
             TrabajadorDAO dao = new TrabajadorDAO(conn);
