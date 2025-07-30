@@ -3,6 +3,12 @@ package Visual;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import Conector.ClienteDAO;
+import Logica.Cliente;
+import Conector.ConexionDB;
 
 public class FormularioAgregarCliente extends JDialog {
 
@@ -83,14 +89,30 @@ public class FormularioAgregarCliente extends JDialog {
                 return;
             }
 
-            JOptionPane.showMessageDialog(this, "Cliente guardado:\n\n" +
-                "ID: " + id + "\nNombre: " + nombre + "\nDirección: " + direccion + "\nProyectos: " + cantidadProyectos);
+            Cliente cliente = new Cliente(nombre, id, direccion);
 
-            txtID.setText("");
-            txtNombre.setText("");
-            txtDireccion.setText("");
-            spinnerProyectos.setValue(1);
+            try {
+                Connection conn = ConexionDB.obtenerConexion();
+                ClienteDAO dao = new ClienteDAO(conn);
+                boolean exito = dao.insertarCliente(cliente);
+
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Cliente guardado exitosamente.");
+                    txtID.setText("");
+                    txtNombre.setText("");
+                    txtDireccion.setText("");
+                    spinnerProyectos.setValue(1);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al guardar el cliente.");
+                }
+
+                conn.close();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error de conexión: " + ex.getMessage());
+                ex.printStackTrace();
+            }
         });
+
     }
 }
 
