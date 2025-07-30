@@ -104,22 +104,6 @@ public class Ventana extends JFrame {
         menuProyectos.setForeground(new Color(30, 30, 30)); 
         menuProyectos.setOpaque(false);
         menuProyectos.setForeground(Color.BLACK);
-        JMenuItem itemVerProyectos = new JMenuItem("Ver Proyectos");
-        itemVerProyectos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        itemVerProyectos.setBackground(new Color(245, 245, 245));
-        itemVerProyectos.setOpaque(false); 
-        itemVerProyectos.setBorder(new EmptyBorder(5, 10, 5, 10));
-        menuProyectos.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-            	menuProyectos.setBackground(new Color(200, 220, 255));
-            }
-
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-            	menuProyectos.setBackground(Color.WHITE);
-            }
-        });
         JMenuItem itemAsignarProyectos = new JMenuItem("Asignar Proyectos");
         itemAsignarProyectos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         itemAsignarProyectos.setBackground(new Color(245, 245, 245));
@@ -136,8 +120,7 @@ public class Ventana extends JFrame {
             	menuProyectos.setBackground(Color.WHITE);
             }
         });
-        
-        menuProyectos.add(itemVerProyectos);
+    
         menuProyectos.add(itemAsignarProyectos);
 
         menuBar.add(menuTrabajadores);
@@ -426,17 +409,17 @@ public class Ventana extends JFrame {
             if (filaSeleccionada != -1) {
                 int confirmar = JOptionPane.showConfirmDialog(
                     panel,
-                    "¿Seguro que deseas eliminar este Cliente?",
+                    "¿Seguro que deseas eliminar este Proyecto?",
                     "Confirmar eliminación",
                     JOptionPane.YES_NO_OPTION
                 );
 
                 if (confirmar == JOptionPane.YES_OPTION) {
                     modelo.removeRow(filaSeleccionada);
-                    JOptionPane.showMessageDialog(panel, "Cliente eliminado.");
+                    JOptionPane.showMessageDialog(panel, "Proyecto eliminado.");
                 }
             } else {
-                JOptionPane.showMessageDialog(panel, "Selecciona un Cliente primero.");
+                JOptionPane.showMessageDialog(panel, "Selecciona un Proyecto primero.");
             }
         });
 
