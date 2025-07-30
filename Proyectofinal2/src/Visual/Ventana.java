@@ -39,7 +39,7 @@ public class Ventana extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-
+        //Menu Superior
         JMenuBar menuBar = new JMenuBar();
         JMenu menuTrabajadores = new JMenu("Gestion de Trabajadores");
         menuTrabajadores.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -131,13 +131,13 @@ public class Ventana extends JFrame {
         menuBar.add(menuProyectos);
 
         setJMenuBar(menuBar);
-
+        //Menu Principal, Tabla de Trabajadores, Clientes y proyectos (contratos)
         tabbedPane = new JTabbedPane();
         tabbedPane.setFont(new Font("Segoe UI", Font.BOLD, 14));
         tabbedPane.setForeground(Color.WHITE);
         tabbedPane.setBackground(new Color(30, 30, 30));
 
-        UIManager.put("TabbedPane.selected", new Color(45, 45, 45));  // Color de fondo del tab activo
+        UIManager.put("TabbedPane.selected", new Color(45, 45, 45));
         UIManager.put("TabbedPane.contentAreaColor", new Color(60, 60, 60));
         tabbedPane.setUI(new javax.swing.plaf.metal.MetalTabbedPaneUI() {
         	@Override
@@ -202,7 +202,7 @@ public class Ventana extends JFrame {
         Image imagen = logoMenu.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
         ImageIcon iconoEscalado = new ImageIcon(imagen);
 
-        JLabel labelConFade = new ImagenConFade(iconoEscalado, 1000); // 1000ms (1s) de fade
+        JLabel labelConFade = new ImagenConFade(iconoEscalado, 1000);
         panel.add(labelConFade, BorderLayout.CENTER);
         return panel;
     }
@@ -271,8 +271,8 @@ public class Ventana extends JFrame {
             if (filaSeleccionada != -1) {
                 int confirmar = JOptionPane.showConfirmDialog(
                     panel,
-                    "¿Seguro que deseas eliminar este trabajador?",
-                    "Confirmar eliminación",
+                    "�Seguro que deseas eliminar este trabajador?",
+                    "Confirmar eliminacion",
                     JOptionPane.YES_NO_OPTION
                 );
 
@@ -296,7 +296,7 @@ public class Ventana extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
         Connection conn = ConexionDB.obtenerConexion();
 
-        String[] columnas = {"ID", "Nombre", "Dirección"};
+        String[] columnas = {"ID", "Nombre", "Direccion"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         JTable tabla = new JTable(modelo);
         JScrollPane scroll = new JScrollPane(tabla);
@@ -343,7 +343,7 @@ public class Ventana extends JFrame {
             if (filaSeleccionada != -1) {
                 int confirmar = JOptionPane.showConfirmDialog(
                     panel,
-                    "¿Seguro que deseas eliminar este cliente?",
+                    "�Seguro que deseas eliminar este cliente?",
                     "Confirmar eliminacion",
                     JOptionPane.YES_NO_OPTION
                 );
@@ -419,8 +419,8 @@ public class Ventana extends JFrame {
             if (filaSeleccionada != -1) {
                 int confirmar = JOptionPane.showConfirmDialog(
                     panel,
-                    "¿Seguro que deseas eliminar este Proyecto?",
-                    "Confirmar eliminación",
+                    "�Seguro que deseas eliminar este Proyecto?",
+                    "Confirmar eliminacion",
                     JOptionPane.YES_NO_OPTION
                 );
 
@@ -439,7 +439,7 @@ public class Ventana extends JFrame {
 
         return panel;
     } 
-    
+    //Ventana Principal
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(() -> {
             Ventana ventana = new Ventana();
@@ -447,7 +447,7 @@ public class Ventana extends JFrame {
         });
     }
     
-
+    //Animacion
     private class ImagenConFade extends JLabel {
         private float alpha = 0f;
         private Timer timer;

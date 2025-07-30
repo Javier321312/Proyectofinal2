@@ -43,7 +43,6 @@ public class ProyectoDAO {
         return null;
     }
 
-    // Método ajustado para devolver una lista de proyectos
     public List<ProyectoSoftware> obtenerTodosProyectos() {
         String sql = "SELECT * FROM Proyecto";
         List<ProyectoSoftware> proyectos = new ArrayList<>();
