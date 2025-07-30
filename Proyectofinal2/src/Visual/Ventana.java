@@ -393,7 +393,6 @@ public class Ventana extends JFrame {
         try {
             ProyectoDAO dao = new ProyectoDAO(conn);
             List<ProyectoSoftware> proyectos = dao.obtenerTodosProyectos();
-
             for (ProyectoSoftware p : proyectos) {
                 Object[] fila = {p.getNombre()};
                 modelo.addRow(fila);
@@ -401,6 +400,48 @@ public class Ventana extends JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(panel, "Error al cargar proyectos: " + e.getMessage());
         }
+        
+        
+        JButton btnEliminar = new JButton("Eliminar Proyecto");
+        btnEliminar.setBackground(new Color(220, 53, 69)); 
+        btnEliminar.setForeground(Color.WHITE);
+        btnEliminar.setFocusPainted(false);
+        btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnEliminar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+
+        btnEliminar.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                btnEliminar.setBackground(new Color(180, 35, 42)); 
+            }
+
+            public void mouseExited(MouseEvent e) {
+                btnEliminar.setBackground(new Color(220, 53, 69));
+            }
+        });
+
+
+        btnEliminar.addActionListener(e -> {
+            int filaSeleccionada = tabla.getSelectedRow();
+            if (filaSeleccionada != -1) {
+                int confirmar = JOptionPane.showConfirmDialog(
+                    panel,
+                    "¿Seguro que deseas eliminar este Cliente?",
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirmar == JOptionPane.YES_OPTION) {
+                    modelo.removeRow(filaSeleccionada);
+                    JOptionPane.showMessageDialog(panel, "Cliente eliminado.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(panel, "Selecciona un Cliente primero.");
+            }
+        });
+
+        JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBoton.add(btnEliminar);
 
         return panel;
     } 
