@@ -43,19 +43,8 @@ public class ClienteDAO {
         return null;
     }
 
-     public boolean actualizarCliente(Cliente cliente) {
-        String sql = "UPDATE Cliente SET nombre = ?, direccion = ? WHERE id_cliente = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, cliente.getNombre());
-            stmt.setString(2, cliente.getDireccion());
-            stmt.setString(3, cliente.getId());
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+     
+    
 
      public boolean eliminarCliente(String id) {
         String sql = "DELETE FROM Cliente WHERE id_cliente = ?";

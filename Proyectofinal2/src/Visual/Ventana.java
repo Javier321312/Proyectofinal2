@@ -337,22 +337,33 @@ public class Ventana extends JFrame {
         });
 
 
-        btnEliminar.addActionListener(e -> {
-            int filaSeleccionada = tabla.getSelectedRow();
-            if (filaSeleccionada != -1) {
-                int confirmar = JOptionPane.showConfirmDialog(
-                    panel,
-                    "¿Seguro que deseas eliminar este Cliente?",
-                    "Confirmar eliminación",
-                    JOptionPane.YES_NO_OPTION
-                );
+        btnEliminar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = tablaClientes.getSelectedRow();
 
-                if (confirmar == JOptionPane.YES_OPTION) {
-                    modelo.removeRow(filaSeleccionada);
-                    JOptionPane.showMessageDialog(panel, "Cliente eliminado.");
+                if (filaSeleccionada != -1) {
+                    // Obtener ID del cliente de la tabla
+                    String idCliente = tablaClientes.getValueAt(filaSeleccionada, 0).toString();
+
+                    int confirmacion = JOptionPane.showConfirmDialog(null,
+                        "¿Estás seguro de eliminar al cliente con ID: " + idCliente + "?",
+                        "Confirmación de Eliminación",
+                        JOptionPane.YES_NO_OPTION);
+
+                    if (confirmacion == JOptionPane.YES_OPTION) {
+                        boolean eliminado = ClienteDAO.eliminarCliente(idCliente);
+                        if (eliminado) {
+                            // Eliminar fila de la tabla visual
+                            DefaultTableModel modelo = (DefaultTableModel) tablaClientes.getModel();
+                            modelo.removeRow(filaSeleccionada);
+                            JOptionPane.showMessageDialog(null, "Cliente eliminado correctamente.");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No se pudo eliminar el cliente de la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecciona un cliente de la tabla para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(panel, "Selecciona un Cliente primero.");
             }
         });
 

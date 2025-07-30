@@ -79,21 +79,5 @@ public class TrabajadorDAO {
         }
     }
 
-     public boolean actualizarTrabajador(ColaboradorTech trabajador) {
-        String sql = "UPDATE Trabajador SET nombre = ?, direccion = ?, sexo = ?, edad = ?, salario = ?, nombre_proyecto = ? WHERE id_trabajador = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, trabajador.getNombre());
-            stmt.setString(2, trabajador.getDireccion());
-            stmt.setString(3, String.valueOf(trabajador.getSexo()));
-            stmt.setInt(4, trabajador.getEdad());
-            stmt.setDouble(5, trabajador.getSalario());
-            stmt.setString(6, trabajador.getProyectoAsignado());
-            stmt.setString(7, trabajador.getId());
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+     
 }
