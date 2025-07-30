@@ -25,6 +25,7 @@ public class Login extends JFrame {
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(350, 200);
+        setResizable(false);
         setLocationRelativeTo(null); 
 
         contentPane = new JPanel();
