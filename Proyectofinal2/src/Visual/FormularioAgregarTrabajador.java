@@ -2,6 +2,12 @@ package Visual;
 
 import javax.swing.*;
 import java.awt.*;
+import Logica.ColaboradorTech;
+import Conector.ConexionDB;
+import Conector.TrabajadorDAO;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class FormularioAgregarTrabajador extends JDialog {
 
@@ -79,9 +85,40 @@ public class FormularioAgregarTrabajador extends JDialog {
         });
         
         botonGuardar.addActionListener(e -> {
-            String nombre = campoNombre.getText();
-            JOptionPane.showMessageDialog(this, "Trabajador '" + nombre + "' registrado (simulado).");
-            dispose(); 
+            try {
+                String id = campoID.getText();
+                String nombre = campoNombre.getText();
+                String direccion = campoDireccion.getText();
+                int edad = Integer.parseInt(campoEdad.getText());
+                char sexo = comboSexo.getSelectedItem().toString().charAt(0);
+                String rol = comboRol.getSelectedItem().toString();
+                String proyecto = campoProyecto.getText();
+                
+                double salario = calcularSalarioBasePorRol(rol); 
+                
+                // Crear el trabajador
+                ColaboradorTech trabajador = new ColaboradorTech(id, nombre, direccion, proyecto, sexo, edad, salario, proyecto) {
+                    @Override
+                    public String mostrarResumen() {
+                        return "Resumen del trabajador " + nombre;
+                    }
+                };
+
+                // Conectar e insertar
+                Connection conn = ConexionDB.obtenerConexion();
+                TrabajadorDAO dao = new TrabajadorDAO(conn);
+                boolean exito = dao.insertarTrabajador(trabajador);
+
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Trabajador '" + nombre + "' guardado correctamente.");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al guardar el trabajador.");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Datos inválidos o error: " + ex.getMessage());
+            }
         });
     }
     private void ocultarCamposEspeciales(
@@ -89,12 +126,27 @@ public class FormularioAgregarTrabajador extends JDialog {
             JLabel l2, JTextField f2,
             JLabel l3, JTextField f3
         ) {
-            l1.setVisible(false);
-            f1.setVisible(false);
-            l2.setVisible(false);
-            f2.setVisible(false);
-            l3.setVisible(false);
-            f3.setVisible(false);
+        l1.setVisible(false);
+        f1.setVisible(false);
+        l2.setVisible(false);
+        f2.setVisible(false);
+        l3.setVisible(false);
+        f3.setVisible(false);
+    }
+
+    private double calcularSalarioBasePorRol(String rol) {
+        switch (rol) {
+            case "Programador":
+                return 50000;
+            case "Jefe de Proyecto":
+                return 80000;
+            case "Diseñador":
+                return 45000;
+            case "Planificador":
+                return 47000;
+            default:
+                return 40000;
+        }
     }
 }
 
